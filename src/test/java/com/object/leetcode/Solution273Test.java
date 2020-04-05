@@ -19,15 +19,49 @@ public class Solution273Test {
     }
 
     @Test
-    public void shouldAnswerWithTrue() {
-        String words = this.solution273.numberToWords(5);
-        assertEquals("Five", words);
-        words = this.solution273.numberToWords(15);
-        assertEquals("Fifteen", words);
-//        words = this.solution273.numberToWords(25);
-//        assertEquals("Twenty Five",words);
-
-        words = this.solution273.numberToWords(125);
-        System.out.println(words);
+    public void testLessThan20() {
+        assertEqualsNumber(5, "Five");
+        assertEqualsNumber(0, "Zero");
+        assertEqualsNumber(15, "Fifteen");
     }
+
+    private void assertEqualsNumber(int i, String five) {
+        String words = this.solution273.numberToWords(i);
+        assertEquals(five, words);
+    }
+
+    @Test
+    public void test_20_100() {
+        assertEqualsNumber(20, "Twenty");
+        assertEqualsNumber(99, "Ninety Nine");
+    }
+
+    @Test
+    public void test_100_999() {
+        assertEqualsNumber(123, "One Hundred Twenty Three");
+        assertEqualsNumber(100, "One Hundred");
+        assertEqualsNumber(101, "One Hundred One");
+    }
+
+    @Test
+    public void test_1000() {
+        assertEqualsNumber(1000, "One Thousand");
+    }
+
+    @Test
+    public void test_12345() {
+        assertEqualsNumber(12345, "Twelve Thousand Three Hundred Forty Five");
+    }
+
+    @Test
+    public void test_100000() {
+        assertEqualsNumber(100000, "One Hundred Thousand");
+    }
+
+    @Test
+    public void test_1234567() {
+        assertEqualsNumber(1234567, "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven");
+        assertEqualsNumber(1000000, "One Million");
+    }
+
 }

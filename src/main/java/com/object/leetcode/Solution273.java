@@ -13,32 +13,83 @@ public class Solution273 {
             "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty"
     };
 
+    private static final String[] NUM2 = new String[]{"Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+    private static final String[] UNIT = new String[]{"", "", "Thousand", "Million", "Billion", "Trillion"};
+
+    public static final int TWENTY = 20;
+    public static final int ONE_HUNDRED = 100;
+    public static final String HUNDRED = "Hundred";
+    public static final String SPACE = " ";
 
 
     public String numberToWords(int num) {
-        if(num<20){
-            return NUMS[num];
-        }else{
-            String numStr = String.valueOf(num);
-            StringBuilder sb = new StringBuilder();
-            String [] num2 = new String[]{"Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"};
-            if(numStr.length()==3){
-                char first = numStr.charAt(0);
-                char two = numStr.charAt(1);
-                int twoOffset = two - '0';
-                sb.append(NUMS[first-'0']).append(" ").append("Hundred").append(" ");
-                if(twoOffset!=0){
-                    sb.append(num2[twoOffset-2]);
+        if(num==0){
+            return NUMS[0];
+        }
+        StringBuilder sb = new StringBuilder();
+        String iStr = String.valueOf(num);
+        int length = iStr.length();
+        int count = length / 3;
+        int remainder = length % 3;
+        count = remainder != 0 ? count + 1 : count;
+        int index = 0;
+        for (int j = count; j >= 1; j--) {
+            if (j == count && remainder != 0) {
+                String numSegment = iStr.substring(index, remainder);
+                sb.append(segment(Integer.parseInt(numSegment)))
+                        .append(SPACE)
+                        .append(UNIT[j]);
+                index = remainder;
+            } else {
+                int endIndex = index + 3;
+                String numSegment = iStr.substring(index, endIndex);
+
+                int num1 = Integer.parseInt(numSegment);
+                if (num1!=0) {
+                    sb.append(SPACE)
+                            .append(segment(num1))
+                            .append(SPACE)
+                            .append(UNIT[j]);
                 }
-                sb.append(" ").append(NUMS[(numStr.charAt(2)-'0')]);
-                return sb.toString();
+                index = endIndex;
             }
         }
-        return null;
+
+        return sb.toString().trim();
+    }
+
+    private String segment(int num) {
+        if (num == 0) {
+            return "";
+        }
+
+        if (num < TWENTY) {
+            return NUMS[num];
+        } else if (num >= TWENTY && num < ONE_HUNDRED) {
+            return twoNum(num);
+        } else {
+            int hundreds = num / ONE_HUNDRED;
+            return (NUMS[hundreds] + SPACE + HUNDRED + SPACE + this.twoNum(num % ONE_HUNDRED)).trim();
+        }
+    }
+
+    public String twoNum(int num) {
+        if (num == 0) {
+            return "";
+        }
+        if (num < TWENTY) {
+            return NUMS[num];
+        }
+        String tenOffset = NUM2[num / 10 - 2];
+        int unit = num % 10;
+        if (unit == 0) {
+            return tenOffset;
+        } else {
+            return tenOffset + SPACE + NUMS[unit];
+        }
     }
 
     public static void main(String[] args) {
-        char c = '1';
-        System.out.println(c-'0');
+        System.out.println(2 % 3);
     }
 }
