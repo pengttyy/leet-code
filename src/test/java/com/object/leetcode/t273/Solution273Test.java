@@ -1,8 +1,9 @@
-package com.object.leetcode;
+package com.object.leetcode.t273;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.object.leetcode.t273.Solution273;
 import org.junit.Before;
 import org.junit.Test;
 

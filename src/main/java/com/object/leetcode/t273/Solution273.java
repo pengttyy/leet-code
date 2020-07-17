@@ -1,4 +1,4 @@
-package com.object.leetcode;
+package com.object.leetcode.t273;
 
 /**
  * Hello world!
