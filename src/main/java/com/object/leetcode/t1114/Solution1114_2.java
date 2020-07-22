@@ -1,36 +1,35 @@
 package com.object.leetcode.t1114;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author kai.peng
  */
-public class Solution1114 {
-    private CountDownLatch firstSecond = new CountDownLatch(1);
-    private CountDownLatch secondThird = new CountDownLatch(1);
-
+public class Solution1114_2 {
+    private volatile int i = 0;
 
     public void first(Runnable printFirst) throws InterruptedException {
         printFirst.run();
-        firstSecond.countDown();
+        i++;
     }
 
     public void second(Runnable printSecond) throws InterruptedException {
-        firstSecond.await();
+        while (i!=1){};
         printSecond.run();
-        secondThird.countDown();
+        i++;
     }
 
     public void third(Runnable printThird) throws InterruptedException {
-        secondThird.await();
+        while (i!=2){};
         printThird.run();
     }
 
     public static void main(String[] args) {
+        int num = 0;
+        num = (num + 1) % 3;
 
-        System.out.println(1%2);
-        System.out.println(2%2);
-        System.out.println(3%2);
-        System.out.println(4%2);
+        System.out.println(num);
     }
 }
